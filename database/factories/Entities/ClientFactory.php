@@ -1,22 +1,17 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Entities;
 
-use CodeProject\Models\Client;
+use CodeProject\Entities\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\CodeProject\Models\Client>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\CodeProject\Entities\Client>
  */
 class ClientFactory extends Factory
 {
-
     protected $model = Client::class;
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+
     public function definition(): array
     {
         return [
