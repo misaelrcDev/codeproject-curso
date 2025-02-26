@@ -10,19 +10,17 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::group(['middleware' => 'auth:api'], function () {
 
-Route::get('client', [ClientController::class, 'index']);
-Route::post('client', [ClientController::class, 'store']);
-Route::get('client/{id}', [ClientController::class, 'show']);
-Route::delete('client/{id}', [ClientController::class, 'destroy']);
+    Route::resource('client', ClientController::class, ['except' => ['create', 'edit']]);
+    Route::resource('project', ProjectController::class, ['except' => ['create', 'edit']]);
 
-Route::get('project/{id}/note', [ProjectNoteController::class, 'index']);
-Route::post('project/{id}/note', [ProjectNoteController::class, 'store']);
-Route::get('project/{id}/note/{noteId}', [ProjectNoteController::class, 'show']);
-Route::put('project/{id}/note/{noteId}', [ProjectNoteController::class, 'update']);
-Route::delete('project/{id}/note/{noteId}', [ProjectNoteController::class, 'destroy']);
 
-Route::get('project', [ProjectController::class, 'index']);
-Route::post('project', [ProjectController::class, 'store']);
-Route::get('project/{id}', [ProjectController::class, 'show']);
-Route::delete('project/{id}', [ProjectController::class, 'destroy']);
+    Route::group(['prefix' => 'project'], function () {
+        Route::get('{id}/note', [ProjectNoteController::class, 'index']);
+        Route::post('{id}/note', [ProjectNoteController::class, 'store']);
+        Route::get('{id}/note/{noteId}', [ProjectNoteController::class, 'show']);
+        Route::put('{id}/note/{noteId}', [ProjectNoteController::class, 'update']);
+        Route::delete('{id}/note/{noteId}', [ProjectNoteController::class, 'destroy']);
+    });
+});

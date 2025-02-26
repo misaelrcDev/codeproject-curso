@@ -5,9 +5,17 @@ namespace CodeProject\Http\Controllers;
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ProjectController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
+class ProjectController extends BaseController
 {
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    
     private $repository;
     private $service;
 
@@ -15,13 +23,14 @@ class ProjectController extends Controller
     {
         $this->repository = $repository;
         $this->service = $service;
+        $this->middleware('auth:api');
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return $this->repository->all();
+        return $this->repository->findWhere(['owner_id' => Auth::user()->id]);
     }
 
     /**
@@ -35,8 +44,12 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
+        if($this->checkProjectOwner($id) == false) {
+            return ['error' => 'Access forbidden'];
+        };
+
         return $this->repository->find($id);
     }
 
@@ -53,6 +66,10 @@ class ProjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if($this->checkProjectOwner($id) == false) {
+            return ['error' => 'Access forbidden'];
+        };
+
         return $this->service->update($request->all(), $id);
     }
 
@@ -61,6 +78,18 @@ class ProjectController extends Controller
      */
     public function destroy(string $id)
     {
+        if($this->checkProjectOwner($id) == false) {
+            return ['error' => 'Access forbidden'];
+        };
+
         return $this->repository->delete($id);
+    }
+
+    private function checkProjectOwner($projectId)
+    {
+        $userId = Auth::user()->id;
+
+        return $this->repository->isOwner($projectId, $userId);
+
     }
 }
