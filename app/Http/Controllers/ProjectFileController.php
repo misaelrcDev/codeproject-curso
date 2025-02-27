@@ -11,10 +11,11 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
-class ProjectController extends BaseController
+class ProjectFileController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
@@ -40,7 +41,11 @@ class ProjectController extends BaseController
      */
     public function store(Request $request)
     {
-        return $this->service->create($request->all());
+        $file = $request->file('file');
+        $extension = $file->getClientOriginalExtension();
+
+
+        Storage::put($request->name.".".$extension, File::get($file));
     }
 
     /**

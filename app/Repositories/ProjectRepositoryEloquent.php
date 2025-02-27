@@ -6,7 +6,11 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Entities\Project;
+use CodeProject\Presenters\ProjectPresenter;
 use CodeProject\Validators\ProjectValidator;
+
+use Illuminate\Support\Facades\Log;
+
 
 /**
  * Class ProjectRepositoryEloquent.
@@ -43,4 +47,19 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         return false;
     }
 
+    public function hasMember($projectId, $memberId)
+    {
+        $project = $this->find($projectId);
+        foreach ($project->members as $member) {
+            if ($member->id == $memberId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function presenter()
+    {
+        return ProjectPresenter::class;
+    }
 }

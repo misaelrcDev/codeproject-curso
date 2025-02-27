@@ -1,14 +1,16 @@
 <?php
 
-use CodeProject\Http\Controllers\ClientController;
-use CodeProject\Http\Controllers\ProjectController;
-use CodeProject\Http\Controllers\ProjectNoteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use CodeProject\Http\Controllers\ClientController;
+use CodeProject\Http\Controllers\ProjectController;
+use CodeProject\Http\Controllers\ProjectFileController;
+use CodeProject\Http\Controllers\ProjectNoteController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
 
 Route::group(['middleware' => 'auth:api'], function () {
 
@@ -22,5 +24,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('{id}/note/{noteId}', [ProjectNoteController::class, 'show']);
         Route::put('{id}/note/{noteId}', [ProjectNoteController::class, 'update']);
         Route::delete('{id}/note/{noteId}', [ProjectNoteController::class, 'destroy']);
+
+        Route::post('{id}/file', [ProjectFileController::class, 'store']);
     });
 });
