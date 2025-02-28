@@ -25,6 +25,7 @@ class ProjectFile extends Model implements Transformable
         'name',
         'description',
         'extension',
+        'project_id',
     ];
 
     public function project()
