@@ -3,20 +3,49 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch --poll",
+        "hot": "mix watch --hot",
+        "prod": "mix --production"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.4",
+        "browser-sync": "^3.0.3",
+        "browser-sync-webpack-plugin": "^2.3.0",
         "concurrently": "^9.0.1",
         "gulp": "^5.0.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-livereload": "^4.0.2",
+        "gulp-sass": "^6.0.0",
         "laravel-mix": "^6.0.49",
         "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.4.47",
         "resolve-url-loader": "^5.0.0",
+        "rimraf": "2.7.1",
         "sass": "^1.85.1",
         "sass-loader": "^12.6.0",
         "tailwindcss": "^3.4.13",
         "vite": "^6.0.11"
+    },
+    "dependencies": {
+        "@bower_components/angular": "angular/bower-angular#^1.0.8",
+        "@bower_components/angular-animate": "angular/bower-angular-animate#^1.0.8",
+        "@bower_components/angular-messages": "angular/bower-angular-messages#^1.0.8",
+        "@bower_components/angular-resource": "angular/bower-angular-resource#^1.0.8",
+        "@bower_components/angular-route": "angular/bower-angular-route#^1.0.8",
+        "@bower_components/angular-strap": "mgcrea/angular-strap#^2.3.12",
+        "@bower_components/bootstrap": "twbs/bootstrap#^3.3.7",
+        "@bower_components/jquery": "jquery/jquery-dist#^3.7.1",
+        "@popperjs/core": "^2.11.8",
+        "angular": "^1.8.3",
+        "angular-animate": "^1.8.3",
+        "angular-messages": "^1.8.3",
+        "angular-resource": "^1.8.3",
+        "angular-route": "^1.8.3",
+        "angular-ui-bootstrap": "^2.5.6",
+        "bootstrap": "^5.3.3",
+        "jquery": "^3.7.1"
     }
 }
